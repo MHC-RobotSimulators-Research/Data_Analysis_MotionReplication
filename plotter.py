@@ -47,11 +47,20 @@ class plotter:
     def overlay_all_jpos(self, id, filename):
         self.unify_shape()
 
+def create_path(i):
+    return "2023-10-28 17_54_29/test_mai_trial" + str(i) + ".csv"
+
 def main():
-    check = plotter(pd.read_csv("test_trials/test_trial_2_rs.csv"))
-    check.plot_one_jpos(3,"data_analysis/one_pos.png")
-    # check.plot_all_jpos("all_jpos.png")
-    check2 = plotter(pd.read_csv("test_trials/test_trial_1_rs.csv"), pd.read_csv("test_trials/test_trial_2_rs.csv"))
-    check2.overlay_one_jpos(4, "data_analysis/overlay.png")
+    csv_path = []
+    for i in range(0,4):
+        csv_path.append(create_path(i))
+    # initialize plotter object 
+    check = plotter(pd.read_csv(csv_path[0]), pd.read_csv(csv_path[3]))
+    # save fig
+    graph_path = "data_analysis/"
+    check.plot_one_jpos(4, graph_path + "one_pos.png")
+    check.plot_all_jpos(graph_path + "all_jpos.png")
+    check.overlay_one_jpos(5, graph_path + "overlay.png")
+
 if __name__ == "__main__":
     main()
