@@ -4,8 +4,15 @@ from lineplot import *
 from histogram import *
 from barplot import *
 import sys
+import os
+import shutil
 
 def main():
+    isExist = os.path.exists(SAVE_FIG_PATH)
+    if isExist:
+        shutil.rmtree(SAVE_FIG_PATH)
+    os.makedirs(SAVE_FIG_PATH)
+
     if sys.argv[1] == '1':
         print("method1")
         file_names = sys.argv[2]
@@ -21,13 +28,14 @@ def main():
         print("method2")
         histogram = Histogram()
 
-        if len(sys.argv) == 2:
+        if len(sys.argv) == 3:
             file_names = sys.argv[2]
             histogram.lineGraph2(file_names)
         
         else:
             file_names = sys.argv[2]
             column_lists = sys.argv[3]
+            print(column_lists)
             histogram.lineGraph3(file_names, column_lists)
 
     else:

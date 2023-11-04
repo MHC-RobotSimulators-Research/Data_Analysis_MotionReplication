@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from readFiles import *
+from define import *
 
 class LinePlot:
     #concatenate multiple dataframes and ignore the fact that they may have overlapping indexes
@@ -33,22 +34,22 @@ class LinePlot:
             # plt.show()
 
         fig, ax = plt.subplots(figsize=(10, 3))
-        sns.lineplot(x='index', y=df1.columns[1], data=df1)
+        sns.lineplot(x='time', y=df1.columns[1], data=df1)
         plt.title(df1.columns[1].split(" ")[0])
         plt.xlabel('Time')
         plt.ylabel('Position')
-        plt.show()
+        # plt.show()
 
         fig, ax = plt.subplots(figsize=(10, 3))
-        sns.lineplot(x='index', y=df2.columns[1], data=df2)
+        sns.lineplot(x='time', y=df2.columns[1], data=df2)
         plt.title(df2.columns[1].split(" ")[0])
         plt.xlabel('Time')
         plt.ylabel('Position')
-        plt.show()
+        # plt.show()
 
         # fig, ax = plt.subplots(figsize=(10, 3))
-        a=sns.lineplot(x='index', y=df1.columns[1], data=df1, label=df1.columns[1])
-        b=sns.lineplot(x='index', y=df2.columns[1], data=df2, label=df2.columns[1])
+        a=sns.lineplot(x='time', y=df1.columns[1], data=df1, label=df1.columns[1])
+        b=sns.lineplot(x='time', y=df2.columns[1], data=df2, label=df2.columns[1])
         # plt.show()
 
         plt.figure(figsize=(10,3))
@@ -64,3 +65,5 @@ class LinePlot:
         plt.fill_between(line[0].get_xdata(), line[0].get_ydata(), line[1].get_ydata(), color='green', where=(line[0].get_ydata()<line[1].get_ydata()), alpha=.5, label="Negative", interpolate=True)
         plt.legend()
         # plt.show()
+        
+        plt.savefig('{}/lineplot.png'.format(SAVE_FIG_PATH))
