@@ -39,4 +39,5 @@ class BarPlot:
         ax.bar(column_lists, mean_list)
         plt.axhline(y=0, color='black')
 
+        plt.savefig('{}/barplot.eps'.format(SAVE_FIG_PATH))
         plt.savefig('{}/barplot.png'.format(SAVE_FIG_PATH))

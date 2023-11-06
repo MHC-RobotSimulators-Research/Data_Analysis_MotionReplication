@@ -65,4 +65,5 @@ class LinePlot:
         plt.legend()
         # plt.show()
         
+        plt.savefig('{}/lineplot.eps'.format(SAVE_FIG_PATH))
         plt.savefig('{}/lineplot.png'.format(SAVE_FIG_PATH))
