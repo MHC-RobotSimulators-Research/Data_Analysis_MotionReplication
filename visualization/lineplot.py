@@ -21,7 +21,6 @@ class LinePlot:
         print(column_lists)
 
         result = readFiles1(file_names, column_lists)
-        print("after")
         self.joinDataFrames(result)
 
         df1 = result[0]
