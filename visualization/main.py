@@ -18,9 +18,6 @@ def main():
         file_names = sys.argv[2]
         column_lists = sys.argv[3]
 
-        print(file_names)
-        print(column_lists)
-
         lineplot = LinePlot()
         lineplot.lineGraph1(file_names, column_lists)
 
@@ -39,6 +36,7 @@ def main():
             histogram.lineGraph3(file_names, column_lists)
 
     else:
+        print("method3")
         file_names = sys.argv[2]
         column_lists = sys.argv[3]
 

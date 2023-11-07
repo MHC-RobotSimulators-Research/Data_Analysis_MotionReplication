@@ -11,14 +11,12 @@ class LinePlot:
         for i in range(1, len(dataframes)):
             df = pd.concat([df, dataframes[i]], ignore_index=True, sort=False)
 
-        print("\n After concatenate:")
-        print(df)
-        print("\n")
+        # print("\n After concatenate:")
+        # print(df)
+        # print("\n")
 
 
     def lineGraph1(self, file_names, column_lists):
-        print(file_names)
-        print(column_lists)
 
         result = readFiles1(file_names, column_lists)
         self.joinDataFrames(result)
@@ -32,7 +30,7 @@ class LinePlot:
             # plt.set(xlabel='Time', ylabel='Position', title='DataFrame Plot')
             # plt.show()
 
-        fig, ax = plt.subplots(figsize=(10, 3))
+        # fig, ax = plt.subplots(figsize=(10, 3))
         sns.lineplot(x='time', y=df1.columns[1], data=df1)
         plt.title(df1.columns[1].split(" ")[0])
         plt.xlabel('Time')
@@ -55,8 +53,8 @@ class LinePlot:
         # plt.xlim(left=0, right=None)
         # plt.ylim(bottom=0, top=2)
         line = b.get_lines()
-        print(line[0].get_ydata())
-        print(line[1].get_ydata())
+        # print(line[0].get_ydata())
+        # print(line[1].get_ydata())
         plt.plot(line[0].get_xdata(),line[0].get_ydata(), color='red', label='trial_1')
         plt.plot(line[0].get_xdata(),line[1].get_ydata(), color='green', label='trial_2')
 
@@ -65,5 +63,5 @@ class LinePlot:
         plt.legend()
         # plt.show()
         
-        plt.savefig('{}/lineplot.eps'.format(SAVE_FIG_PATH))
+        plt.savefig('{}/lineplot.svg'.format(SAVE_FIG_PATH))
         plt.savefig('{}/lineplot.png'.format(SAVE_FIG_PATH))

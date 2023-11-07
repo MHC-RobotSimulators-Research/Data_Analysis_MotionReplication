@@ -11,7 +11,6 @@ class Histogram:
         df1 = dfs[0]
         df2 = dfs[1]
 
-        print(len(df1.columns))
         num=0
         for i in range(0,len(df1.columns)):
             if df1.columns[i] == 'time':
@@ -39,17 +38,20 @@ class Histogram:
 
             result = pd.concat([sub_df1, sub_df2, sub_diff], ignore_index=True, sort=False)
 
-            plt.ylabel(column_name)
-            # sns.displot(data=result, x='time', hue="type", element="step")
-            # plt.rcParams["savefig.directory"] = os.chdir(SAVE_FIG_PATH)
-            # plt.savefig(SAVE_FIG_PATH + 'histogram.png')
+            # plt.ylabel(column_name)
+            sns.displot(data=result, x='time', hue="type", element="step")
+            fig = plt.figure()
+            fig.set_tight_layout(True)
             
-            plt.savefig('{}/histogram.png'.format(SAVE_FIG_PATH))
+            save_name_png = 'histogram_' + column_name + '.png'
+            save_path_png = os.path.join(SAVE_FIG_PATH, save_name_png)
+            plt.savefig(save_path_png)
+            save_name_eps = 'histogram_' + column_name + '.eps'
+            save_path_eps = os.path.join(SAVE_FIG_PATH, save_name_eps)
+            plt.savefig(save_path_eps)
 
             num=num+1
-        print(num)
         
-
 
     #Take column name as input
     def lineGraph3(self, file_names, column_lists):
@@ -86,11 +88,19 @@ class Histogram:
             sub_diff['time'] = df1['time']
 
             result = pd.concat([sub_df1, sub_df2, sub_diff], ignore_index=True, sort=False)
-
+            
             plt.ylabel(column_name)
-            # sns.displot(data=result, x='time', hue="type", element="step")
-            plt.savefig('{}/histogram.eps'.format(SAVE_FIG_PATH))
-            plt.savefig('{}/histogram.png'.format(SAVE_FIG_PATH))
+            sns.displot(data=result, x='time', hue="type", element="step")
+
+            fig = plt.figure()
+            fig.set_tight_layout(False)
+            plt.tight_layout()
+
+            save_name_png = 'histogram_' + column_name + '.png'
+            save_path_png = os.path.join(SAVE_FIG_PATH, save_name_png)
+            plt.savefig(save_path_png)
+            save_name_eps = 'histogram_' + column_name + '.eps'
+            save_path_eps = os.path.join(SAVE_FIG_PATH, save_name_eps)
+            plt.savefig(save_path_eps)
 
             num=num+1
-        print(num)

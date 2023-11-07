@@ -34,9 +34,11 @@ class BarPlot:
             mean = sum_diff/total_time_stamped
             mean_list.append(mean)
         
-        fig = plt.figure()
-        ax = fig.add_axes([0,0,1,1])
+        # fig = plt.figure()
+        # ax = fig.add_axes([0,0,1,1])
+        fig, ax = plt.subplots()
         ax.bar(column_lists, mean_list)
+        ax.set_ylabel('Difference')
         plt.axhline(y=0, color='black')
 
         plt.savefig('{}/barplot.eps'.format(SAVE_FIG_PATH))
