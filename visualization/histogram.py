@@ -92,8 +92,8 @@ class Histogram:
             plt.ylabel(column_name)
             sns.displot(data=result, x='time', hue="type", element="step")
 
-            fig = plt.figure()
-            fig.set_tight_layout(False)
+            # fig = plt.figure()
+            # fig.set_tight_layout(False)
             plt.tight_layout()
 
             save_name_png = 'histogram_' + column_name + '.png'
