@@ -30,6 +30,7 @@ def main():
         df3 = pd.read_csv(csv_path[csv3-1])
     else:
         return
+    
     while choice!=7:
         print("\nChoose an option:\n")
         print("1. Plot one joint\n")
@@ -85,25 +86,14 @@ def main():
             # Plot bar graph
             if choice == 6:
                 object_to_draw = input("Enter the object to compare (AMBF_AMBF/ PHYS_AMBF/ PHYS_PHYS):\n")
-                bar_plot = barplot() 
-                bar_plot.draw_bar_plot(object_to_draw)
+                bar_plot = barplot(object_to_draw) 
+                bar_plot.draw_bar_plot()
 
             if choice == 7:
                 return
 
         except ValueError:
             print("Invalid Input. Please enter a valid number. \n")
-
-    # check = plotter.plotter(df1, df2, df3)
-    # offset_list = [0]*16
-    # offset_list[4] = offset_list[12] = math.pi
-    # offset_list[1] = 13
-    # offset_list[9] = 17
-    # offset_list[2] = offset_list[10] = -23
-    # print(offset_list)
-    # check.regenerate_csv_offset(offset_list)
-    # mean_bar_graph = meanBarGraph(df1, df2, df3)
-    # mean_bar_graph.mean_bar_graph("jpos", GRAPH_PATH + "mean_bar_graph" + "left")
 
 
 if __name__ == "__main__":

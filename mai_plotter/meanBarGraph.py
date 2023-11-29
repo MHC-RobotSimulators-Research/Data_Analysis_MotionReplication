@@ -13,7 +13,7 @@ class meanBarGraph:
         mean_column = []
         jpos_column = []
         bar_color = []
-        
+        print("jpos4 inside mean bar graph",self.df1["jpos4"])
         for i in BOTH_J:
             jpos = type + str(i)
             # plt.clf()
@@ -35,6 +35,7 @@ class meanBarGraph:
             mean_column.append(mean)
             jpos_column.append(jpos)
 
+        print("mean column", mean_column)
         #create pandas dataframe with above columns
         mean_bar = pd.DataFrame({"Mean Differences": mean_column, "Joint Position" if type == "jpos" else "Joint Velocity": jpos_column})
         # create bar plots        
