@@ -1,0 +1,63 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from define import *
+class meanBarGraph:
+    def __init__(self, df1, df2, df3):
+        self.df1 = df1
+        self.df2 = df2
+        self.df3 = df3
+
+    def plot_mean_bar_graph(self, type, filename):
+
+        #create mean, jpos column and bar_color for positive mean = green, negative mean = orange
+        mean_column = []
+        jpos_column = []
+        bar_color = []
+        
+        for i in BOTH_J:
+            jpos = type + str(i)
+            # plt.clf()
+            # count mean
+            df1_column = self.df1[jpos]
+            df2_column = self.df2[jpos]
+            df3_column = self.df3[jpos]
+
+            diff = pd.concat([df1_column, df2_column, df3_column], axis=1)
+            diff['max_difference'] = diff.apply(lambda x: x.max() - x.min() if x.max() > x.min() else x.min() - x.max(), axis=1)
+
+            # Calculate the mean of the maximum differences across columns
+            mean = diff['max_difference'].mean()
+
+            if mean < 0:
+                bar_color.append("orange")
+            else:
+                bar_color.append("g")
+            mean_column.append(mean)
+            jpos_column.append(jpos)
+
+        #create pandas dataframe with above columns
+        mean_bar = pd.DataFrame({"Mean Differences": mean_column, "Joint Position" if type == "jpos" else "Joint Velocity": jpos_column})
+        # create bar plots        
+        graph = mean_bar.plot(kind = "bar", x = "Joint Position" if type == "jpos" else "Joint Velocity", y = "Mean Differences", legend=False, color=bar_color)
+        # Add a baseline at 0
+        graph.axhline(0, color='gray', linestyle='--', linewidth=1)
+        # Add labels and title
+        plt.xlabel("Mean Differences")
+        plt.ylabel( "Joint Position" if type == "jpos" else "Joint Velocity")
+        plt.title("Mean Differences of " +  "Joint Position" if type == "jpos" else "Joint Velocity")
+
+        #beside generating graph, also count the mean number of all means to represent the overal performance
+        self.mean_error = sum(abs(mean) for mean in mean_column)/14
+        #add overal mean in the right corner
+        graph.text(0.95, 0.95, f"Mean Error: {self.mean_error:.2f}", transform=graph.transAxes, fontsize=12,
+            verticalalignment='top', horizontalalignment='right', bbox=dict(boxstyle='round,pad=0.5', edgecolor='gray', facecolor='white'))
+        self.save_figure(filename=filename)
+        return
+    
+    def get_mean_error(self):
+        return self.mean_error
+    
+    def save_figure (self, filename):
+        figure_format = ["png", "svg", "eps"]
+        for form in figure_format:
+            plt.savefig(filename + "." + form, format = form)
