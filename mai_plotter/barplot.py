@@ -5,13 +5,41 @@ import matplotlib.pyplot as plt
 from meanBarGraph import meanBarGraph
 
 class barplot:
-    def __init__(self, title):
+    def __init__(self, title, sliding):
         all_csv = self.create_all_csv(title)
         self.all_mode_csv = all_csv[0]
         self.r = all_csv[1]
         self.title = title
-        
-    def create_path(self, mode):
+        self.sliding = False
+        if sliding:
+            self.used_j = SLIDING_J
+        else:
+            self.used_j = BOTH_J
+
+        self.save_offset_csv() # will move it out to the main menu
+
+    def save_offset_csv(self):  # will move it out to the main menu        
+        original_j = BOTH_J + SLIDING_J
+        original_j.sort()
+        self.used_j = original_j
+        offset_dfs = self.add_offset(self.all_mode_csv)
+
+        count = 0
+        m = 0
+        p = [0,1,2]
+        for df in range(len(offset_dfs)):
+            if count == 6:
+                m += 1
+                count = 0
+            if df % DF_PER_MODE in p:
+                phys_ambf = "_p"
+            else:
+                phys_ambf = "_a"
+            order = df % NUM_CSV + 1
+            offset_dfs[df].to_csv(OFFSET_PATH + MODE[m] + "_" + phys_ambf + str(order) + ".csv", index=False)
+            count += 1
+
+    def create_path(self, mode): # will move it out to the main menu
         csv_path = []
         for i in range(1,4):
             csv_path.append(CSV_PATH + mode + "_p" + str(i) + ".csv")
@@ -20,7 +48,7 @@ class barplot:
 
         return csv_path
     
-    def create_all_csv(self, object):
+    def create_all_csv(self, object): # will move it out to the main menu
 
         all_mode_csv = []
         r = []
@@ -33,7 +61,6 @@ class barplot:
         csv_path = []
         for m in MODE: 
             csv_path.append(self.create_path(mode = m))
-        print(csv_path)
 
         for csv in csv_path:
             for path in csv:
@@ -41,25 +68,25 @@ class barplot:
 
         return all_mode_csv,r
     
-    def add_offset(self, dfs):
+    def add_offset(self, dfs): # will move it out to the main menu
         # create offset list 
         offset_choice = input("Do you want to add offset to the csv? (y/n)\n")
         
         if offset_choice == "y":
-            offset_list = [0] * len(BOTH_J)
-            offset_j = list(map(int, input(f"Which joint(s) do you want to add offset? ({', '.join(map(str, BOTH_J))})\n").split()))
+            offset_list = [0] * len(self.used_j)
+            offset_j = list(map(int, input(f"Which joint(s) do you want to add offset? ({', '.join(map(str, self.used_j))})\n").split()))
             offset_v = list(map(float, input("What values of offset correspond to those joints? \n").split()))
 
             for _ in range(len(offset_j)):
-                i = BOTH_J.index(offset_j[_])
+                i = self.used_j.index(offset_j[_])
                 offset_list[i] = offset_v[_]
 
             # Applying the offset to the dataframe columns (just apply the offsets to the first 3)
             phys = [0,1,2]
             for i in range(len(dfs)):
                 if i % 6 in phys:
-                    for joint_index in range(len(BOTH_J)):
-                        joint_name = f"jpos{BOTH_J[joint_index]}"
+                    for joint_index in range(len(self.used_j)):
+                        joint_name = f"jpos{self.used_j[joint_index]}"
                         curr = dfs[i][joint_name]
                         dfs[i].loc[:, joint_name] = curr + offset_list[joint_index]
 
@@ -68,25 +95,33 @@ class barplot:
 
         return dfs
     
-    def filter_jpos(self, df):
-        jpos_name = []
-        jvel_name = []
-        for joint in BOTH_J:
-            jpos_name.append("jpos" + str(joint))
-            jvel_name.append("jvel" + str(joint))
+    def filter_jpos(self, dfs): # will move it out to the main menu
+        filter_choice = input("Do you want to filter the csv? (y/n) \n")
+        if filter_choice == "y":
+            filtered_dfs = []
+            jpos_name = []
+            jvel_name = []
+            for joint in self.used_j:
+                jpos_name.append("jpos" + str(joint))
+                jvel_name.append("jvel" + str(joint))
 
-        # Filter and update the dataframes
-        new_df = df[jpos_name + jvel_name]
-        return new_df
+            # Filter and update the dataframes
+            for df in dfs:
+                new_df = df[jpos_name + jvel_name]
+                filtered_dfs.append(new_df)
+        elif filter_choice == "n":
+            filtered_dfs = dfs
     
-
+        return filtered_dfs
 
     def data_prep_bar_plot(self, dfs_new, type):
-        # all_mode_csv = 2d array with 
-        # 3 rows: 3 modes
-        # 6 columns: 3 phys, 3 ambf
+        # dfs_new is 1D 18 elements after add offsets, filter:
+        # 2arm: 3 phys, 3 ambf
+        # 0arm: 3 phys, 3 ambf
+        # 1arm: 3 phys, 3 ambf
+
         final_dfs = []
-        # dfs is 1d array with 9 elements
+        # final_dfs is 1d array with 9 elements
         # 3 phys csv in two arm mode, 3 phys csv in left arm, 3 phys csv in right arm
         for i in range(len(dfs_new)):
             # for mode two arm
@@ -95,18 +130,14 @@ class barplot:
 
         # initialize plotter for 3 phys csv in two arm mode
         two_arm = meanBarGraph(final_dfs[0], final_dfs[1], final_dfs[2])
-        print("2arm: ", final_dfs[0]['jpos4'])
         left_arm = meanBarGraph(final_dfs[3], final_dfs[4], final_dfs[5])
-        print("leftarm: ", final_dfs[3]['jpos4'])
         right_arm = meanBarGraph(final_dfs[6], final_dfs[7], final_dfs[8])
-        print("rightarm: ", final_dfs[6]['jpos4'])
 
         plotters = [two_arm, left_arm, right_arm]
         mean_list = []
         for p in range((len(MODE))):
-            plotters[p].plot_mean_bar_graph(type, GRAPH_PATH + "mean_bar_graph" + MODE[p])
+            plotters[p].plot_mean_bar_graph(type, self.used_j, GRAPH_PATH + "mean_bar_graph" + MODE[p])
             mean = plotters[p].get_mean_error()
-            # print(mean)
             mean_list.append(mean)
 
         return mean_list
@@ -118,15 +149,12 @@ class barplot:
         categories = MODE
 
         # filter all csv with chosen joints 
-        filtered_dfs = []
-        for df in self.all_mode_csv:
-            filtered_dfs.append(self.filter_jpos(df))
+        filtered_dfs = self.filter_jpos(self.all_mode_csv)
 
         # add offsets
         final_dfs = self.add_offset(filtered_dfs)
 
         bar1_value = self.data_prep_bar_plot(final_dfs, type[0])
-        print("jpos mean diff: ", bar1_value)
         bar2_value = self.data_prep_bar_plot(final_dfs, type[1])
 
         # Creating the positions for the bars on the x-axis
@@ -139,8 +167,17 @@ class barplot:
         plt.clf()
 
         # Creating the bar plot
-        plt.bar(x - bar_width/2, bar1_value, width=bar_width, label='JPos (rad)')
-        plt.bar(x + bar_width/2, bar2_value, width=bar_width, label='JVel (rad/s)')
+        if self.used_j == BOTH_J: 
+            label1 = 'JPos (rad)'
+            label2 = 'JVel (rad/s)'
+            pos = 0.0003
+        else:
+            label1 = "JPos (m)"
+            label2 = "JVel (m/s)"
+            pos = 0.000002
+
+        plt.bar(x - bar_width/2, bar1_value, width=bar_width, label=label1)
+        plt.bar(x + bar_width/2, bar2_value, width=bar_width, label=label2)
 
         # Adding labels, title, and legend
         plt.xlabel('Modes')
@@ -151,13 +188,14 @@ class barplot:
 
         # Add counts above each column
         for i, val in enumerate(bar1_value):
-            plt.text(i - bar_width/2, val + 0.0003, str(round(val, 2)), ha='center', va='bottom')
+            plt.text(i - bar_width/2, val + pos, str(round(val, 2)), ha='center', va='bottom')
 
         for i, val in enumerate(bar2_value):
-            plt.text(i + bar_width/2, val + 0.0003, str(round(val, 2)), ha='center', va='bottom')
+            plt.text(i + bar_width/2, val + pos, str(round(val, 2)), ha='center', va='bottom')
 
         # Show plot
         figure_format = ["png", "svg", "eps"]
         for form in figure_format:
             plt.savefig(GRAPH_PATH + self.title + "." + form, format = form)
+        
         return

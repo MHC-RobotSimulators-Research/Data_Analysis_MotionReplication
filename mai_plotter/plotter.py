@@ -42,9 +42,9 @@ class plotter:
         self.save_figure(filename=filename)
         print("Successfully plot")
 
-    def plot_all_jpos(self, df, filename):
+    def plot_all_jpos(self, df_index, filename):
         # line chart for all jpos
-        df_jpos = self.df[df][self.df[df].columns[2:18]] 
+        df_jpos = self.df[df_index - 1].iloc[:, 2:18]  # Select columns 2 to 17
         df_jpos.plot()
         self.save_figure(filename=filename)
 

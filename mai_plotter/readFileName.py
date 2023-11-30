@@ -3,8 +3,10 @@ class ReadFileName:
         self.file_name = file_name
         self.mode = mode
         self.raven_type = raven_type
-        if self.mode == None or raven_type == None:
+        if self.mode == None and raven_type == None:
             self.parse_file_name()
+        
+        # if self.raven_type == None and self.mode != None:
 
     def set_file_name(self):
         self.file_name = "raven_data/" + self.mode + "_" + self.raven_type + ".csv"

@@ -31,7 +31,7 @@ def main():
     else:
         return
     
-    while choice!=7:
+    while choice!=8:
         print("\nChoose an option:\n")
         print("1. Plot one joint\n")
         print("2. Plot all joints\n")
@@ -86,7 +86,12 @@ def main():
             # Plot bar graph
             if choice == 6:
                 object_to_draw = input("Enter the object to compare (AMBF_AMBF/ PHYS_AMBF/ PHYS_PHYS):\n")
-                bar_plot = barplot(object_to_draw) 
+                sliding = input("Do you want to plot rotation joints or sliding arms? (r/s)\n")
+                if sliding == "r":
+                    s = False
+                else:
+                    s = True
+                bar_plot = barplot(object_to_draw, s) 
                 bar_plot.draw_bar_plot()
 
             if choice == 7:
