@@ -9,9 +9,9 @@ from barplot import barplot
 def create_path(mode):
     csv_path = []
     for i in range(1,4):
-        csv_path.append(CSV_PATH + mode + "_p" + str(i) + ".csv")
+        csv_path.append(OFFSET_PATH + mode + "__p" + str(i) + ".csv")
     for i in range(1,4):
-        csv_path.append(CSV_PATH + mode + "_a" + str(i) + ".csv")
+        csv_path.append(OFFSET_PATH + mode + "__a" + str(i) + ".csv")
 
     return csv_path
 
@@ -19,7 +19,7 @@ def main():
 
     choice = 0
     # show menu
-    mode = input("Choose mode to analyze (0arm - left arm, 1arm - right arm, 2arm) or 'q' to quit\n")
+    mode = input("Choose mode to analyze (0arm - left arm, 1arm - right arm, 2arm, cube) or 'q' to quit\n")
     if mode != "q": 
         csv_path = create_path(mode = mode)
         # initialize df
@@ -68,14 +68,23 @@ def main():
             # Plot overlay
             if choice == 4:
                 overlay_graph = overlay(df1, df2, df3)
-                graph_type = int(input("Enter type of graph you want plot" +  
-                                   "(1: plot 1 joint over index, 2: plot 1 joint over time, 3: plot 2 joints over time) \n").split())
+                graph_type = int(input("Enter type of graph you want plot" + "(1: plot 1 joint over index, 2: plot 1 joint over time, 3: plot 2 joints over time) \n"))
                 if graph_type == 1:
                     overlay_graph.overlay_one_jpos_index()
                 elif graph_type == 2:
                     overlay_graph.overlay_one_jpos_time()
                 else:
-                    overlay_graph.overlay_two_jpos()
+                    type = input("What type (jpos/jevel)? \n")
+                    best_worst = input("Do you want to plot best and worst joints? (y/n)\n")
+                    if best_worst == "y":
+                        
+                        meanGraph = meanBarGraph(df1, df2, df3)
+                        mean_column = meanGraph.create_mean_column(type, ORIGINAL, "Best_Worst_overlay")
+                        print(*mean_column)
+                        joints = meanGraph.get_best_worst_j()    
+                    elif best_worst == "n":
+                        joints = list(map(int, input("Whhich 2 joint you want to plot overlay?").split()))
+                    overlay_graph.overlay_two_jpos(type, joints[0], joints[1], GRAPH_PATH + "Overlay_2_Joints_" + mode)
             
             # Plot mean bar graph
             if choice == 5:

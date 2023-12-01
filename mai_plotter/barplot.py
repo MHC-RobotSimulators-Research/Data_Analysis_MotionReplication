@@ -16,7 +16,7 @@ class barplot:
         else:
             self.used_j = BOTH_J
 
-        self.save_offset_csv() # will move it out to the main menu
+        # self.save_offset_csv() # will move it out to the main menu
 
     def save_offset_csv(self):  # will move it out to the main menu        
         original_j = BOTH_J + SLIDING_J
@@ -42,9 +42,9 @@ class barplot:
     def create_path(self, mode): # will move it out to the main menu
         csv_path = []
         for i in range(1,4):
-            csv_path.append(CSV_PATH + mode + "_p" + str(i) + ".csv")
+            csv_path.append(OFFSET_PATH + mode + "__p" + str(i) + ".csv")
         for i in range(1,4):
-            csv_path.append(CSV_PATH + mode + "_a" + str(i) + ".csv")
+            csv_path.append(OFFSET_PATH + mode + "__a" + str(i) + ".csv")
 
         return csv_path
     
@@ -132,8 +132,9 @@ class barplot:
         two_arm = meanBarGraph(final_dfs[0], final_dfs[1], final_dfs[2])
         left_arm = meanBarGraph(final_dfs[3], final_dfs[4], final_dfs[5])
         right_arm = meanBarGraph(final_dfs[6], final_dfs[7], final_dfs[8])
+        cube = meanBarGraph(final_dfs[9], final_dfs[10], final_dfs[11])
 
-        plotters = [two_arm, left_arm, right_arm]
+        plotters = [two_arm, left_arm, right_arm, cube]
         mean_list = []
         for p in range((len(MODE))):
             plotters[p].plot_mean_bar_graph(type, self.used_j, GRAPH_PATH + "mean_bar_graph" + MODE[p])
@@ -146,7 +147,12 @@ class barplot:
         bar1_value = []
         bar2_value = []
         type = ["jpos", "jvel"]
-        categories = MODE
+
+        categories = ["Both", "Left", "Right", "Both"]
+        # categories = ["Two_arm", "Left_arm", "Right_arm", "Two_arm"]
+        # Modify the first three categories with D_I and leave the last one with D_II
+        # plot(xdata,ydata, xlabel=L"\mathscr{Temperature\hspace{0.6}(°C)}",ylabel=L"\mathscr{Density\hspace{0.6}(g/cm^3)}")
+        #  plot(1:5,1:5, xlabel=L"Temperature $\mathfrak{K} \hspace{0.6}(C)$",ylabel=L"Density $\mathfrak{Density} \hspace{0.6} (g/cm^3)$")
 
         # filter all csv with chosen joints 
         filtered_dfs = self.filter_jpos(self.all_mode_csv)

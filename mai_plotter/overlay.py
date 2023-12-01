@@ -7,7 +7,7 @@ class overlay:
         self.df1 = df1
         self.df2 = df2
         self.df3 = df3
-        
+        self.df = [self.df1, self.df2, self.df3]
      # overlay by time
     def overlay_two_jpos(self, type, id1, id2, filename):
         # Round 'time' column to 0.01
@@ -27,12 +27,19 @@ class overlay:
         # Before plotting, clear the plot
         plt.clf()
 
+        # create labels for first and second joint 
+        j1 = " Left Joint " + str(id1+1)
+        j2 = " Left Joint " + str(id2+1)
+        if id1+1 > 7:
+            j1 = " Right Joint " + str(id1 + 1 -7)
+        if id2+1 > 7:
+            j2 = " Right Joint " + str(id2 + 1 -7)
         #Plot first, second overlay
-        self.overlay_one_jpos_time(type, merged_df=merged_df, id=id1, color = "red", label="Most consistent joint")
-        self.overlay_one_jpos_time(type, merged_df=merged_df, id=id2, color = "blue", label="Least consistent joint")
+        self.overlay_one_jpos_time(type, merged_df=merged_df, id=id1, color = "red", label="Most consistent -" + j1)
+        self.overlay_one_jpos_time(type, merged_df=merged_df, id=id2, color = "blue", label="Least consistent -" + j2)
 
         # Adding title and labels
-        plt.title(f"Overlay of joint position {str(id1+1)} and {str(id2+1)}")
+        plt.title(f"Overlay of {j1} and {j2}")
         plt.xlabel("Time (ms)")
         plt.ylabel("Joint Position (degrees)")
 

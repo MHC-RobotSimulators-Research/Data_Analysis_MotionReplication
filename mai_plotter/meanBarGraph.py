@@ -6,11 +6,10 @@ class meanBarGraph:
         self.df1 = df1
         self.df2 = df2
         self.df3 = df3
+        self.mean_column = []
 
-    def plot_mean_bar_graph(self, type, used_j, filename):
-
+    def create_mean_column(self, type, used_j):
         #create mean, jpos column and bar_color for positive mean = green, negative mean = orange
-        mean_column = []
         jpos_column = []
         bar_color = []
         for i in used_j:
@@ -31,11 +30,22 @@ class meanBarGraph:
                 bar_color.append("orange")
             else:
                 bar_color.append("g")
-            mean_column.append(mean)
+
+            self.mean_column.append(mean)
             jpos_column.append(jpos)
 
+        # count the mean number of all means to represent the overal performance
+        self.mean_error = sum(abs(mean) for mean in self.mean_column)/14
+        print("create mean column ",self.mean_column)
+        return jpos_column, bar_color
+        
+    def plot_mean_bar_graph(self, type, used_j, filename):
+
+        cols = self.create_mean_column(type, used_j)
+        jpos_column = cols[0]
+        bar_color = cols[1]
         #create pandas dataframe with above columns
-        mean_bar = pd.DataFrame({"Mean Differences": mean_column, "Joint Position" if type == "jpos" else "Joint Velocity": jpos_column})
+        mean_bar = pd.DataFrame({"Mean Differences": self.mean_column, "Joint Position" if type == "jpos" else "Joint Velocity": jpos_column})
         # create bar plots        
         graph = mean_bar.plot(kind = "bar", x = "Joint Position" if type == "jpos" else "Joint Velocity", y = "Mean Differences", legend=False, color=bar_color)
         # Add a baseline at 0
@@ -45,8 +55,6 @@ class meanBarGraph:
         plt.ylabel( "Joint Position" if type == "jpos" else "Joint Velocity")
         plt.title("Mean Differences of " +  "Joint Position" if type == "jpos" else "Joint Velocity")
 
-        #beside generating graph, also count the mean number of all means to represent the overal performance
-        self.mean_error = sum(abs(mean) for mean in mean_column)/14
         #add overal mean in the right corner
         graph.text(0.95, 0.95, f"Mean Error: {self.mean_error:.2f}", transform=graph.transAxes, fontsize=12,
             verticalalignment='top', horizontalalignment='right', bbox=dict(boxstyle='round,pad=0.5', edgecolor='gray', facecolor='white'))
@@ -55,6 +63,14 @@ class meanBarGraph:
     
     def get_mean_error(self):
         return self.mean_error
+    
+    def get_mean_column(self):
+        return self.mean_column
+    
+    def get_best_worst_j(self):
+        best = max(self.mean_column)
+        worst = min(self.mean_column)
+        return self.mean_column.index(best), self.mean_column.index(worst)
     
     def save_figure (self, filename):
         figure_format = ["png", "svg", "eps"]
