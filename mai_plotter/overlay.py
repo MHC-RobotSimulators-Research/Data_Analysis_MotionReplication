@@ -3,40 +3,34 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class overlay:
-    def __init__(self, df1, df2=None, df3=None):
-        self.df1 = df1
-        self.df2 = df2
-        self.df3 = df3
-        self.df = [self.df1, self.df2, self.df3]
+    def __init__(self, dfs):
+        self.dfs = dfs
+
      # overlay by time
-    def overlay_two_jpos(self, type, id1, id2, filename):
+    def overlay_two_jpos(self, type, id1, id2, filename, dfs):
         # Round 'time' column to 0.01
-        for df in self.df:
+        for df in dfs:
             df['time'] = df['time'].round(2)
 
-        # Merge df1 and df2 first
-        merged_df_first = pd.merge(self.df1, self.df2, on='time', suffixes=('_df1', '_df2'))
-
-        # Then merge df3 with the previously merged DataFrame
-        merged_df = pd.merge(merged_df_first, self.df3, on='time', suffixes=('', '_df3'), how='inner')
-
+        # Merge all DataFrames
+        merged_df = dfs[0]
+        for df in dfs[1:]:
+            merged_df = pd.merge(merged_df, df, on='time', how='inner')
 
         if merged_df.empty:
             print("Merged dataframe is empty. Check your data or column names.")
             return
+
         # Before plotting, clear the plot
         plt.clf()
 
-        # create labels for first and second joint 
-        j1 = " Left Joint " + str(id1+1)
-        j2 = " Left Joint " + str(id2+1)
-        if id1+1 > 7:
-            j1 = " Right Joint " + str(id1 + 1 -7)
-        if id2+1 > 7:
-            j2 = " Right Joint " + str(id2 + 1 -7)
-        #Plot first, second overlay
-        self.overlay_one_jpos_time(type, merged_df=merged_df, id=id1, color = "red", label="Most consistent -" + j1)
-        self.overlay_one_jpos_time(type, merged_df=merged_df, id=id2, color = "blue", label="Least consistent -" + j2)
+        # create labels for first and second joint
+        j1 = f"Left Joint {id1 + 1}" if id1 < 7 else f"Right Joint {id1 + 1 - 7}"
+        j2 = f"Left Joint {id2 + 1}" if id2 < 7 else f"Right Joint {id2 + 1 - 7}"
+
+        # Plot first and second overlay
+        self.overlay_one_jpos_time(type, merged_df=merged_df, id=id1, color="red", label=f"Most consistent - {j1}")
+        self.overlay_one_jpos_time(type, merged_df=merged_df, id=id2, color="blue", label=f"Least consistent - {j2}")
 
         # Adding title and labels
         plt.title(f"Overlay of {j1} and {j2}")
@@ -48,7 +42,7 @@ class overlay:
 
         figure_format = ["png", "svg", "eps"]
         for form in figure_format:
-            plt.savefig(filename + "." + form, format=form)
+            plt.savefig(f"{filename}.{form}", format=form)
 
     # overlay by time, with joint position = id, filling color = color, label of the graph = label
     def overlay_one_jpos_time(self, type, merged_df, id, color, label):
