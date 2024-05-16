@@ -1,6 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import subprocess
 from define import *
+
 class meanBarGraph:
     def __init__(self, dfs):
         self.dfs = dfs
@@ -34,7 +36,7 @@ class meanBarGraph:
 
         # count the mean number of all means to represent the overal performance
         self.mean_error = sum(abs(mean) for mean in self.mean_column)/14
-        print("create mean column ",self.mean_column)
+        # print("create mean column ",self.mean_column)
         return jpos_column, bar_color
         
     def plot_mean_bar_graph(self, type, used_j, filename):

@@ -57,7 +57,7 @@ class barplot:
         elif object == OBJECT[1]:
             r = [3,4,5]
         elif object == OBJECT[2]:
-            r = [0,1,3]
+            r = [2,3,4]
         csv_path = []
         for m in MODE: 
             csv_path.append(self.create_path(mode = m))
@@ -115,24 +115,25 @@ class barplot:
         return filtered_dfs
 
     def data_prep_bar_plot(self, dfs_new, type):
-        # dfs_new is 1D 18 elements after add offsets, filter:
+        # dfs_new is 1D 21 elements after add offsets, filter:
         # 2arm: 3 phys, 3 ambf
         # 0arm: 3 phys, 3 ambf
         # 1arm: 3 phys, 3 ambf
+        # cube: 3 phys, 3 ambf
 
         final_dfs = []
         # final_dfs is 1d array with 9 elements
         # 3 phys csv in two arm mode, 3 phys csv in left arm, 3 phys csv in right arm
         for i in range(len(dfs_new)):
             # for mode two arm
-            if i % 6 in self.r:
+            if i % DF_PER_MODE in self.r:
                 final_dfs.append(dfs_new[i])            
 
         # initialize plotter for 3 phys csv in two arm mode
-        two_arm = meanBarGraph(final_dfs[0], final_dfs[1], final_dfs[2])
-        left_arm = meanBarGraph(final_dfs[3], final_dfs[4], final_dfs[5])
-        right_arm = meanBarGraph(final_dfs[6], final_dfs[7], final_dfs[8])
-        cube = meanBarGraph(final_dfs[9], final_dfs[10], final_dfs[11])
+        two_arm = meanBarGraph(final_dfs[:3])
+        left_arm = meanBarGraph(final_dfs[3:6])
+        right_arm = meanBarGraph(final_dfs[6:9])
+        cube = meanBarGraph(final_dfs[9:12])
 
         plotters = [two_arm, left_arm, right_arm, cube]
         mean_list = []
@@ -161,8 +162,9 @@ class barplot:
         final_dfs = self.add_offset(filtered_dfs)
 
         bar1_value = self.data_prep_bar_plot(final_dfs, type[0])
+        print("bar1 (jpos): ", bar1_value)
         bar2_value = self.data_prep_bar_plot(final_dfs, type[1])
-
+        print("bar2 (jvel): ", bar2_value)
         # Creating the positions for the bars on the x-axis
         x = np.arange(len(categories))
 
@@ -191,6 +193,14 @@ class barplot:
         plt.title(self.title)
         plt.xticks(x, categories)
         plt.legend()
+
+        # add y limit
+        if self.used_j == BOTH_J:
+            ylim = 0.12
+        elif self.used_j == SLIDING_J:
+            ylim = 0.002
+        
+        plt.ylim(0, ylim)
 
         # Add counts above each column
         for i, val in enumerate(bar1_value):
