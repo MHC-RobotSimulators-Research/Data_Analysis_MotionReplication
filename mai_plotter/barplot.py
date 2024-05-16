@@ -195,12 +195,12 @@ class barplot:
         plt.legend()
 
         # add y limit
-        if self.used_j == BOTH_J:
-            ylim = 0.12
-        elif self.used_j == SLIDING_J:
-            ylim = 0.002
+        # if self.used_j == BOTH_J:
+        #     ylim = 0.12
+        # elif self.used_j == SLIDING_J:
+        #     ylim = 0.002
         
-        plt.ylim(0, ylim)
+        # plt.ylim(0, ylim)
 
         # Add counts above each column
         for i, val in enumerate(bar1_value):
