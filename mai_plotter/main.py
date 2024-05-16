@@ -93,11 +93,10 @@ def main():
                                 if best_worst == "y":
                                     meanGraph = meanBarGraph(dfs)
                                     mean_column = meanGraph.create_mean_column(type, ORIGINAL)
-                                    print(*mean_column)
+                                    #print(*mean_column)
                                     joints = meanGraph.get_best_worst_j()    
-                                    
                                 elif best_worst == "n":
-                                    joints = list(map(int, input("Whhich 2 joint you want to plot overlay?").split()))
+                                    joints = list(map(int, input("Which 2 joint you want to plot overlay?").split()))
                                 overlay_graph.overlay_two_jpos(type, joints[0], joints[1], GRAPH_PATH + "Overlay_2_Joints_" + mode)
                                 print(f"Graph Overlay_2_Joints_{mode} plotted")
                                 
@@ -118,7 +117,7 @@ def main():
                                     s = True
                                 bar_plot = barplot(object_to_draw, s) 
                                 bar_plot.draw_bar_plot()
-                                print(f"Graph {object_to_draw}plotted")
+                                print(f"Graph {object_to_draw} plotted")
                             if choice == 7:
                                 return
 

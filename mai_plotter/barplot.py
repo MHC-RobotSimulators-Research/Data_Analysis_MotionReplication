@@ -213,5 +213,4 @@ class barplot:
         figure_format = ["png", "svg", "eps"]
         for form in figure_format:
             plt.savefig(GRAPH_PATH + self.title + "." + form, format = form)
-        
         return
