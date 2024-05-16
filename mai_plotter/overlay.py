@@ -7,14 +7,14 @@ class overlay:
         self.dfs = dfs
 
      # overlay by time
-    def overlay_two_jpos(self, type, id1, id2, filename, dfs):
+    def overlay_two_jpos(self, type, id1, id2, filename):
         # Round 'time' column to 0.01
-        for df in dfs:
+        for df in self.dfs:
             df['time'] = df['time'].round(2)
 
         # Merge all DataFrames
-        merged_df = dfs[0]
-        for df in dfs[1:]:
+        merged_df = self.dfs[0]
+        for df in self.dfs[1:]:
             merged_df = pd.merge(merged_df, df, on='time', how='inner')
 
         if merged_df.empty:
