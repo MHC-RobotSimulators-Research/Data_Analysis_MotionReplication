@@ -3,12 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class plotter:
-    def __init__ (self, offset, df1, df2=None, df3 = None):
+    def __init__ (self, offset, dfs):
         # plotter for 2 csv
-        self.df1 = df1
-        self.df2 = df2
-        self.df3 = df3
-        self.df = [self.df1, self.df2, self.df3]
+        self.dfs = dfs
 
         # handle offset
         q = False
@@ -27,7 +24,7 @@ class plotter:
             self.regenerate_csv_offset()
 
     def regenerate_csv_offset(self, offset_list):
-        for df in self.df: 
+        for df in self.dfs: 
             for i in range(len(offset_list)):
                 joint_name = "jpos" + str(i)
                 new_column = df[joint_name].values - offset_list[i]
@@ -37,24 +34,15 @@ class plotter:
     def plot_one_jpos(self, df, id, filename, type):
         # line chart for one jpos
         joint_name = type + str(id-1)
-        self.df[df-1].plot('time', joint_name)
+        self.dfs[df-1].plot('time', joint_name)
         plt.xlabel(joint_name)
         self.save_figure(filename=filename)
-        print("Successfully plot")
 
     def plot_all_jpos(self, df_index, filename):
         # line chart for all jpos
-        df_jpos = self.df[df_index - 1].iloc[:, 2:18]  # Select columns 2 to 17
+        df_jpos = self.dfs[df_index - 1].iloc[:, 2:18]  # Select columns 2 to 17
         df_jpos.plot()
         self.save_figure(filename=filename)
-
-    def unify_shape(self):
-        num_row1 = self.df1.shape[0] 
-        num_row2 = self.df2.shape[0] 
-        if num_row1<= num_row2:
-            self.df2 = self.df2.iloc[:num_row1,:]
-        else:
-            self.df1 = self.df1.iloc[:num_row2,:]
 
     def save_figure (self, filename):
         figure_format = ["png", "svg", "eps"]

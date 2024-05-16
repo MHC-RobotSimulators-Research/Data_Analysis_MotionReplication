@@ -2,25 +2,23 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from define import *
 class meanBarGraph:
-    def __init__(self, df1, df2, df3):
-        self.df1 = df1
-        self.df2 = df2
-        self.df3 = df3
+    def __init__(self, dfs):
+        self.dfs = dfs
         self.mean_column = []
 
     def create_mean_column(self, type, used_j):
         #create mean, jpos column and bar_color for positive mean = green, negative mean = orange
         jpos_column = []
         bar_color = []
+        df_column = []
         for i in used_j:
             jpos = type + str(i)
             # plt.clf()
             # count mean
-            df1_column = self.df1[jpos]
-            df2_column = self.df2[jpos]
-            df3_column = self.df3[jpos]
+            for df in self.dfs:
+                df_column.append(df[jpos])
 
-            diff = pd.concat([df1_column, df2_column, df3_column], axis=1)
+            diff = pd.concat(df_column, axis=1)
             diff['max_difference'] = diff.apply(lambda x: x.max() - x.min() if x.max() > x.min() else x.min() - x.max(), axis=1)
 
             # Calculate the mean of the maximum differences across columns
