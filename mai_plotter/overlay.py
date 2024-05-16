@@ -16,6 +16,9 @@ class overlay:
         merged_df = self.dfs[0]
         for df in self.dfs[1:]:
             merged_df = pd.merge(merged_df, df, on='time', how='inner')
+            # print("first: \n")
+            # print(f"{merged_df.columns.values.tolist()} + \n")
+            
 
         if merged_df.empty:
             print("Merged dataframe is empty. Check your data or column names.")
@@ -49,10 +52,10 @@ class overlay:
 
         joint_name = type + str(id)
         # Calculate min, max, and mean
-        total_in_3 = merged_df[[joint_name + '_df1', joint_name + '_df2', joint_name]]
-        min_joint =  merged_df['min_joint'] = total_in_3.min(axis=1)
-        max_joint = merged_df['max_joint'] = total_in_3.max(axis=1)
-        mean_joint = merged_df['mean_joint'] = total_in_3.mean(axis=1)
+        total = merged_df[[joint_name + '_x', joint_name + '_y']]
+        min_joint =  merged_df['min_joint'] = total.min(axis=1)
+        max_joint = merged_df['max_joint'] = total.max(axis=1)
+        mean_joint = merged_df['mean_joint'] = total.mean(axis=1)
         # Plotting the lines with different colors
         plt.plot(merged_df['time'], min_joint, color='orange')
         plt.plot(merged_df['time'], max_joint, color='green')
