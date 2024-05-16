@@ -15,11 +15,10 @@ class overlay:
         # Merge all DataFrames
         merged_df = self.dfs[0]
         for df in self.dfs[1:]:
-            merged_df = pd.merge(merged_df, df, on='time', how='inner')
+            merged_df = merged_df.merge(df, on='time', how='inner', suffixes=('', '_y'))
             # print("first: \n")
             # print(f"{merged_df.columns.values.tolist()} + \n")
             
-
         if merged_df.empty:
             print("Merged dataframe is empty. Check your data or column names.")
             return
@@ -47,12 +46,13 @@ class overlay:
         for form in figure_format:
             plt.savefig(f"{filename}.{form}", format=form)
 
+
     # overlay by time, with joint position = id, filling color = color, label of the graph = label
     def overlay_one_jpos_time(self, type, merged_df, id, color, label):
 
         joint_name = type + str(id)
         # Calculate min, max, and mean
-        total = merged_df[[joint_name + '_x', joint_name + '_y']]
+        total = merged_df[[joint_name + '', joint_name + '_y']]
         min_joint =  merged_df['min_joint'] = total.min(axis=1)
         max_joint = merged_df['max_joint'] = total.max(axis=1)
         mean_joint = merged_df['mean_joint'] = total.mean(axis=1)
@@ -62,7 +62,7 @@ class overlay:
         plt.plot(merged_df['time'], mean_joint, color='yellow' )
 
         # Fill the space between the lines with red color
-        plt.fill_between(merged_df['time'], min_joint, max_joint, color=color, alpha=0.3, label=label)
+        plt.fill_between(merged_df['time'], min_joint, max_joint, color=color, label=label)
 
     # this is overlay by index
     def overlay_one_jpos_index(self, type, id, filename):
@@ -92,4 +92,8 @@ class overlay:
         plt.ylabel("Degree")
         figure_format = ["png", "svg", "eps"]
         for form in figure_format:
-            plt.savefig(filename + "." + form, format = form)
+            if form == "eps":
+                plt.savefig(filename + "." + form, format = form, alpha=1.0)
+            else:
+                plt.savefig(filename + "." + form, format = form)
+            
