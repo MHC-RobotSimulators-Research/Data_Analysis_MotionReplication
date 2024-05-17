@@ -23,8 +23,6 @@ def create_path(mode):
 def main():
 
     choice = 0
-    mode = ""
-
     while True:
         init()  # Show the list of CSVs
         try:
@@ -71,7 +69,7 @@ def main():
                             # Plot one joint
                             if choice == 1:
                                 ans = input(f"Enter csv (1 to {num_csvs}), joint (1-16) and type(jpos, jvel) to plot\n").split()
-                                plot.plot_one_jpos(int(ans[0] +1), int(ans[1] +1), GRAPH_PATH + "One_Joint", type=ans[2])
+                                plot.plot_one_jpos(int(ans[0]), int(ans[1]) +1, GRAPH_PATH + "One_Joint", type=ans[2])
                                 print(f"Graph One_Joint plotted")
                             
                             # Plot all joints
@@ -89,7 +87,7 @@ def main():
                             if choice == 4:
                                 overlay_graph = overlay(dfs)
                                 type = input("What type (jpos/jevel)? \n")
-                                best_worst = input("Do you want to plot best and worst joints? (y/n)\n")
+                                best_worst = input("Do you want to plot smallest and biggest gap joints bwt files? (y/n)\n")
                                 if best_worst == "y":
                                     meanGraph = meanBarGraph(dfs)
                                     mean_column = meanGraph.create_mean_column(type, ORIGINAL)
@@ -97,8 +95,8 @@ def main():
                                     joints = meanGraph.get_best_worst_j()    
                                 elif best_worst == "n":
                                     joints = list(map(int, input("Which 2 joint you want to plot overlay?").split()))
-                                overlay_graph.overlay_two_jpos(type, joints[0], joints[1], GRAPH_PATH + "Overlay_2_Joints_" + mode)
-                                print(f"Graph Overlay_2_Joints_{mode} plotted")
+                                overlay_graph.overlay_two_jpos(type, joints[0], joints[1], GRAPH_PATH + "Overlay_2_Joints")
+                                print(f"Graph Overlay_2_Joints plotted")
                                 
                             
                             # Plot mean bar graph

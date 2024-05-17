@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from subprocess import call
 
 class overlay:
     def __init__(self, dfs):
@@ -42,10 +43,11 @@ class overlay:
         # Move legend to the top right and outside of the graph
         plt.legend(loc='upper right', bbox_to_anchor=(1, 1))
 
-        figure_format = ["png", "svg", "eps"]
+        figure_format = ["png", "svg"]
         for form in figure_format:
             plt.savefig(f"{filename}.{form}", format=form)
-
+        plt.switch_backend('ps')
+        plt.savefig(filename + ".eps", format='eps')
 
     # overlay by time, with joint position = id, filling color = color, label of the graph = label
     def overlay_one_jpos_time(self, type, merged_df, id, color, label):
@@ -62,7 +64,7 @@ class overlay:
         plt.plot(merged_df['time'], mean_joint, color='yellow' )
 
         # Fill the space between the lines with red color
-        plt.fill_between(merged_df['time'], min_joint, max_joint, color=color, label=label)
+        plt.fill_between(merged_df['time'], min_joint, max_joint, color=color, alpha=0.3, label=label)
 
     # this is overlay by index
     def overlay_one_jpos_index(self, type, id, filename):
@@ -92,8 +94,5 @@ class overlay:
         plt.ylabel("Degree")
         figure_format = ["png", "svg", "eps"]
         for form in figure_format:
-            if form == "eps":
-                plt.savefig(filename + "." + form, format = form, alpha=1.0)
-            else:
-                plt.savefig(filename + "." + form, format = form)
+            plt.savefig(filename + "." + form, format = form)
             

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
+from subprocess import call, CalledProcessError
 class plotter:
     def __init__ (self, offset, dfs):
         # plotter for 2 csv
@@ -45,6 +45,9 @@ class plotter:
         self.save_figure(filename=filename)
 
     def save_figure (self, filename):
-        figure_format = ["png", "svg", "eps"]
+        figure_format = ["png", "svg"]
         for form in figure_format:
             plt.savefig(filename + "." + form, format = form)
+        plt.switch_backend('ps')
+        plt.savefig(filename + ".eps", format='eps')
+

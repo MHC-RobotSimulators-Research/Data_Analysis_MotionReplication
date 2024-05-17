@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from meanBarGraph import meanBarGraph
+from subprocess import call
 
 class barplot:
     def __init__(self, title, sliding):
@@ -129,7 +130,7 @@ class barplot:
             if i % DF_PER_MODE in self.r:
                 final_dfs.append(dfs_new[i])            
 
-        # initialize plotter for 3 phys csv in two arm mode
+        # initialize plotter for 3 phys csv in each mode
         two_arm = meanBarGraph(final_dfs[:3])
         left_arm = meanBarGraph(final_dfs[3:6])
         right_arm = meanBarGraph(final_dfs[6:9])
@@ -162,9 +163,9 @@ class barplot:
         final_dfs = self.add_offset(filtered_dfs)
 
         bar1_value = self.data_prep_bar_plot(final_dfs, type[0])
-        print("bar1 (jpos): ", bar1_value)
+        # print("bar1 (jpos): ", bar1_value)
         bar2_value = self.data_prep_bar_plot(final_dfs, type[1])
-        print("bar2 (jvel): ", bar2_value)
+        # print("bar2 (jvel): ", bar2_value)
         # Creating the positions for the bars on the x-axis
         x = np.arange(len(categories))
 
@@ -205,12 +206,14 @@ class barplot:
         # Add counts above each column
         for i, val in enumerate(bar1_value):
             plt.text(i - bar_width/2, val + pos, str(round(val, 2)), ha='center', va='bottom')
-
         for i, val in enumerate(bar2_value):
             plt.text(i + bar_width/2, val + pos, str(round(val, 2)), ha='center', va='bottom')
 
         # Show plot
-        figure_format = ["png", "svg", "eps"]
+        figure_format = ["png", "svg"]
+        filename = GRAPH_PATH + self.title
         for form in figure_format:
-            plt.savefig(GRAPH_PATH + self.title + "." + form, format = form)
+            plt.savefig(filename + "." + form, format = form)
+        plt.switch_backend('ps')
+        plt.savefig(filename + ".eps", format='eps')
         return

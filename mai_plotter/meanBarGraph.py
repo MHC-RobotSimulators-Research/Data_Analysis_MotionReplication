@@ -1,7 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import subprocess
+
 from define import *
+from subprocess import call
 
 class meanBarGraph:
     def __init__(self, dfs):
@@ -73,6 +74,8 @@ class meanBarGraph:
         return self.mean_column.index(best), self.mean_column.index(worst)
     
     def save_figure (self, filename):
-        figure_format = ["png", "svg", "eps"]
+        figure_format = ["png", "svg"]
         for form in figure_format:
             plt.savefig(filename + "." + form, format = form)
+        plt.switch_backend('ps')
+        plt.savefig(filename + ".eps", format='eps')
