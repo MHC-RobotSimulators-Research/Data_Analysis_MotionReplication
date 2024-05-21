@@ -1,37 +1,35 @@
 # Data_Analysis_MotionReplication
 Author: Mai Bui (bui23m@mtholyoke.edu)
 
-Data Analysis Motion Replication is a graphing tool that analyze and visualize the differences between dynamic
-array of CSVs files: ideally doing the same motions or trajectories and from 2 different robot: physical Raven-II
-and AMBF (simulator robot). It has 8 modes: 2 modes for changing the csvs (add offsets and filter csvs) and 5 modes
-for graphing and quit. This is used along with the Raven-II Standardized Controller, which is the source of the data
-input. 
+Data Analysis Motion Replication is a graphing tool designed to analyze and visualize differences between dynamic arrays of CSV files, ideally capturing the same motions or trajectories from two different robots: the physical Raven-II and AMBF (simulator robot). It features eight modes: two for modifying the CSVs (adding offsets and filtering) and six for graphing and quitting. This tool complements the Raven-II Standardized Controller, the source of the data input.
 
-Thanks to this tool, we easily find which joint has most differences and what is the offsets are. How the joints movement
-looks like and if the ROS message sends are lagging or not, whichever cause the differences: ROS, robot or controller. And 
-how much should we change.
+With this tool, you can easily identify which joints have the most differences, what the offsets are, how the joints move, and whether the ROS messages are lagging. This helps determine whether the differences are due to the ROS, robot, or controller and what adjustments should be made.
 
-The user will see all of the existed csvs, have option to pick how many csvs they want to analyze and pick those csvs. All of 
-the chosen csvs will then be used to analyze by all mode instead of the plot bar graph which will basically analyze all of the 
-csvs to have a big picture summarized. 
+## Usage
+1. View all available CSVs.
+2. Select the number of CSVs to analyze.
+3. Choose specific CSVs for analysis.
+4. Use the modes to modify and graph the data as needed.
 
-## Add offset
-This will add an offset into a joint and change the currently analyzed csv of that specific columns. 
+## Modes
 
-## Add filter
-This will provide option of which types of joints you want to analyze: sliding joints, rotation joints, left arms, right arms, with or without joint 3 and joint 11 default to 0.
+### Add Offset
+Add an offset to a joint and modify the corresponding columns in the currently analyzed CSV.
 
-## Plot one joint
-Plot movement over time of one given joint in given csv. 
+### Add Filter
+Choose which types of joints to analyze: sliding joints, both arms' rotational joints, left arm rotational joints, or right arm rotational joints.
 
-## Plot all joints
-Plot movement over time of all joints in given csv.
+### Plot One Joint
+Plot the movement over time of one specified joint in the selected CSV.
 
-## Plot overlay
-This will overlay 2 either given joints of a given csvs or smallest and biggest gap joints between given csvs.
+### Plot All Joints
+Plot the movement over time of all joints in the selected CSV.
 
-## Plot mean bar graph
-View the averaged differences between all the joints.
+### Plot Overlay
+Overlay two specified joints from the selected CSVs or the joints with the smallest and largest gaps between the CSVs.
 
-## Plot bar graph
-The overall differences between physical Raven-II and AMBF in different experiments. 
+### Plot Mean Bar Graph
+View the averaged differences between all joints (excluding joints 3 and 11, which are zeros).
+
+### Plot Bar Graph
+Visualize the overall differences between the physical Raven-II and AMBF across different experiments, independent of the chosen CSVs, with options to add offsets and filters again.
