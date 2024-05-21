@@ -37,5 +37,5 @@ def combine_images(before_path, after_path, output_path):
     combined_image.save(output_path)
 
 
-graph_path = "data_analysis/mean_offset_overlay"
+graph_path = "data_analysis/mean_bar_graphoffset2"
 combine_images(graph_path + "_12.png", graph_path+"_22.png", "combined.png")
