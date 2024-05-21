@@ -2,7 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from define import *
-from subprocess import call
 
 class meanBarGraph:
     def __init__(self, dfs):

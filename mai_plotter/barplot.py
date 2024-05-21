@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from meanBarGraph import meanBarGraph
-from subprocess import call
 
 class barplot:
     def __init__(self, title, sliding):

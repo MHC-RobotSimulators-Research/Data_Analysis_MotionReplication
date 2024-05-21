@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from subprocess import call, CalledProcessError
+
 class plotter:
     def __init__ (self, offset, dfs):
         # plotter for 2 csv
@@ -30,6 +30,23 @@ class plotter:
                 new_column = df[joint_name].values - offset_list[i]
                 df[joint_name] = new_column
         return
+    
+    def filter_jpos(self, used_j): # will move it out to the main menu
+        filtered_dfs = []
+        jpos_name = []
+        jvel_name = []
+        for joint in used_j:
+            jpos_name.append("jpos" + str(joint))
+            jvel_name.append("jvel" + str( joint))
+
+        # Filter and update the dataframes: only include jpos and jvel 
+        # of selected joints
+        for df in self.dfs:
+            new_df = df[jpos_name + jvel_name]
+            filtered_dfs.append(new_df)
+
+        self.dfs = filtered_dfs
+        return 
     
     def plot_one_jpos(self, df, id, filename, type):
         # line chart for one jpos
