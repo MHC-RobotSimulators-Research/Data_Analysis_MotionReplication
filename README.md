@@ -24,30 +24,30 @@ Choose which types of joints to analyze: sliding joints, both arms' rotational j
 
 ### Plot One Joint
 Plot the movement over time of one specified joint in the selected CSV.
-<p align="right">
-  <img src="https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication/assets/83102564/9b570a1d-c3f5-4ee5-89e7-c3bc8061076f" alt="One_Joint" width="300">
+<p align="left">
+  <img src="https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication/assets/83102564/9b570a1d-c3f5-4ee5-89e7-c3bc8061076f" alt="One_Joint" length = "500" width="500">
 </p>
 
 ### Plot All Joints
 Plot the movement over time of all joints in the selected CSV.
-<p align="right">
-  <img src="https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication/assets/83102564/e06adb10-28c9-4f11-8902-3f575ad7ac44" alt="All_Joints" width="300">
+<p align="left">
+  <img src="https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication/assets/83102564/e06adb10-28c9-4f11-8902-3f575ad7ac44" alt="All_Joints" length = "500" width="500">
 </p>
 
 ### Plot Overlay
 Overlay two specified joints from the selected CSVs or the joints with the smallest and largest gaps between the CSVs.
-<p align="right">
-  <img src="https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication/assets/83102564/e8bd7334-3af4-4db1-9939-206df2520cdf" alt="Overlay_2_Joints" width="300">
+<p align="left">
+  <img src="https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication/assets/83102564/e8bd7334-3af4-4db1-9939-206df2520cdf" alt="Overlay_2_Joints" length = "500" width="500">
 </p>
 
 ### Plot Mean Bar Graph
 View the averaged differences between all joints (excluding joints 3 and 11, which are zeros).
-<p align="right">
-  <img src="https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication/assets/83102564/170989f3-824a-45ff-8358-b4f88040b55c" alt="Mean_Bar_Graph" width="300">
+<p align="left">
+  <img src="https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication/assets/83102564/170989f3-824a-45ff-8358-b4f88040b55c" alt="Mean_Bar_Graph" length = "500" width="500">
 </p>
 
 ### Plot Bar Graph
 Visualize the overall differences between the physical Raven-II and AMBF across different experiments, independent of the chosen CSVs, with options to add offsets and filters again.
-<p align="right">
-  <img src="https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication/assets/83102564/cdc6f20f-ecba-42fa-86be-e096631d3052" alt="AMBF_AMBF" width="300">
+<p align="left">
+  <img src="https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication/assets/83102564/cdc6f20f-ecba-42fa-86be-e096631d3052" alt="AMBF_AMBF" length = "500" width="500">
 </p>
