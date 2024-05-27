@@ -16,8 +16,6 @@ class overlay:
         merged_df = self.dfs[0]
         for df in self.dfs[1:]:
             merged_df = merged_df.merge(df, on='time', how='inner', suffixes=('', '_y'))
-            # print("first: \n")
-            # print(f"{merged_df.columns.values.tolist()} + \n")
             
         if merged_df.empty:
             print("Merged dataframe is empty. Check your data or column names.")
