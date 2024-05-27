@@ -80,17 +80,19 @@ def main():
                                         else:
                                             print("Invalid input. Please enter one of the following: both arms, left arm, right arm, sliding.\n")
                             
-                            # Plot all joints
+                            # Plot one joint
                             if choice == 3:
+                                ans = input(f"Enter csv (1 to {num_csvs}), joint (1-16) and type(jpos, jvel) to plot\n").split()
+                                plot.plot_one_jpos(int(ans[0]), int(ans[1]) +1, GRAPH_PATH + "One_Joint", type=ans[2])
+                                print(f"Graph One_Joint plotted")
+                            
+                            # Plot all joints
+                            if choice == 4:
                                 df = int(input(f"Enter csv 1 to {num_csvs} to plot: \n"))
                                 plot.plot_all_jpos(df, GRAPH_PATH + "All_Joints")
                                 print(f"Graph All_Joints plotted")
 
-                            # Plot one joint
-                            if choice == 4:
-                                ans = input(f"Enter csv (1 to {num_csvs}), joint (1-16) and type(jpos, jvel) to plot\n").split()
-                                plot.plot_one_jpos(int(ans[0]), int(ans[1]) +1, GRAPH_PATH + "One_Joint", type=ans[2])
-                                print(f"Graph One_Joint plotted")
+
 
                             # Plot overlay
                             if choice == 5:
