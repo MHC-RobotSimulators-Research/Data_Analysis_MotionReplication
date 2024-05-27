@@ -12,14 +12,14 @@ class barplot:
         self.title = title
         self.sliding = False
         if sliding:
-            self.used_j = SLIDING_J
+            self.used_j = SLIDING
         else:
-            self.used_j = BOTH_J
+            self.used_j = BOTH
 
         # self.save_offset_csv() # will move it out to the main menu
 
     def save_offset_csv(self):  # will move it out to the main menu        
-        original_j = BOTH_J + SLIDING_J
+        original_j = BOTH + SLIDING
         original_j.sort()
         self.used_j = original_j
         offset_dfs = self.add_offset(self.all_mode_csv)
@@ -216,3 +216,4 @@ class barplot:
         plt.switch_backend('ps')
         plt.savefig(filename + ".eps", format='eps')
         return
+    

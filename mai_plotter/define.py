@@ -3,7 +3,7 @@ from os.path import isfile, join
 NUM_CSV = 3
 
 GRAPH_PATH = "data_analysis/"
-CSV_PATH = "raven_data/the_good_stuff/"
+CSV_PATH = "raven_data/the_gdeood_stuff/"
 OFFSET_PATH = "offset_fixed/"
 CSV_FILES_NAME = [f for f in listdir(OFFSET_PATH) if isfile(join(OFFSET_PATH, f))]
 MAX_FILES_INDEX = len(CSV_FILES_NAME) - 1
