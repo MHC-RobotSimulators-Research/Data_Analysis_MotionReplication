@@ -5,6 +5,7 @@ from plotter import plotter
 from overlay import overlay
 from meanBarGraph import meanBarGraph 
 from barplot import barplot
+import PIL
 def init():
     # print csv files
     print("Here are a list of csv files:")
@@ -12,7 +13,7 @@ def init():
         print("\t["+str(i)+"] :"+str(CSV_FILES_NAME[i]))
 
 def main():
-
+    print('PIL',PIL.__version__)
     choice = 0
     while True:
         init()  # Show the list of CSVs
@@ -52,7 +53,7 @@ def main():
 
                         try:
 
-                            if choice < 1 or choice > 7:
+                            if choice < 1 or choice > 8:
                                 print("Invalid Input. Please enter a number between 1 and 8. \n")
                                 continue
                             
@@ -124,6 +125,8 @@ def main():
                                 bar_plot = barplot(object_to_draw, s) 
                                 bar_plot.draw_bar_plot()
                                 print(f"Graph {object_to_draw} plotted")
+
+                            # Quit
                             if choice == 8:
                                 return
 
