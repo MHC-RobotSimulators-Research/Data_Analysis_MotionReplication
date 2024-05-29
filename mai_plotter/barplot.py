@@ -175,7 +175,7 @@ class barplot:
         plt.clf()
 
         # Creating the bar plot
-        if self.used_j == BOTH_J: 
+        if self.used_j == BOTH: 
             label1 = 'JPos (rad)'
             label2 = 'JVel (rad/s)'
             pos = 0.0003
