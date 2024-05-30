@@ -12,7 +12,7 @@ With this tool, you can easily identify which joints have the most differences, 
 Developed and tested on macOS Sonoma 14.4.1 and Ubuntu 20.04.6.
 
 ### Dependencies
-Install key libraries like pandas, numpy, matplotlib, and PIL. Versions used: Python 3.9, pandas 1.5.3, numpy 1.24.2, matplotlib 3.5.2, and PIL 9.1.1 on MacOS and Python 3.8.10, Pandas: 0.25.3, Numpy: 1.17.4, Matplotlib: 3.1.2, PIL: 7.0.0 on Ubuntu.
+Install key libraries like pandas, numpy, matplotlib, and PIL. Versions used: Python 3.10.2, pandas 1.5.3, numpy 1.24.2, matplotlib 3.5.2, and PIL 9.1.1 on MacOS and Python 3.8.10, Pandas: 0.25.3, Numpy: 1.17.4, Matplotlib: 3.1.2, PIL: 7.0.0 on Ubuntu.
 
 ### Installation
 Simply git clone the repo: 
