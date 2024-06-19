@@ -27,7 +27,6 @@ To access the tool, navigate to the ```mai_plotter``` folder and run ```main```.
 3. Choose specific CSVs for analysis.
 4. Use the modes to modify and graph the data as needed.
 
-Here is a quick video how you want to launch this: 
 ## Modes
 
 ### Add Offset
