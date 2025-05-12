@@ -6,9 +6,22 @@ Data Analysis Motion Replication is a graphing tool designed to analyze and visu
 
 With this tool, you can easily identify which joints have the most differences, what the offsets are, how the joints move, and whether the ROS messages are lagging. This helps determine whether the differences are due to the ROS, robot, or controller and what adjustments should be made.
 
-This tool is developed and thoroughly tested on macOS Sonoma 14.4.1 with Python 3.9. Key libraries include pandas 1.5.3, numpy 1.24.2, matplotlib 3.5.2, and PIL 9.1.1. Users may need to modify the code as needed. To access the tool, navigate to the mai_plotter folder and run main. All graphs are saved inside data_analysis folder. 
-
 ## Usage
+
+### Tested platform
+Developed and tested on macOS Sonoma 14.4.1 and Ubuntu 20.04.6.
+
+### Dependencies
+Install key libraries like pandas, numpy, matplotlib, and PIL. Versions used: Python 3.10.2, pandas 1.5.3, numpy 1.24.2, matplotlib 3.5.2, and PIL 9.1.1 on MacOS and Python 3.8.10, Pandas: 0.25.3, Numpy: 1.17.4, Matplotlib: 3.1.2, PIL: 7.0.0 on Ubuntu.
+
+### Installation
+Simply git clone the repo: 
+```
+cd ~
+git clone https://github.com/MHC-RobotSimulators-Research/Data_Analysis_MotionReplication.git
+```
+### Launching
+To access the tool, navigate to the ```mai_plotter``` folder and run ```main```. All graphs are saved inside ```data_analysis``` folder. 
 1. View all available CSVs.
 2. Select the number of CSVs to analyze.
 3. Choose specific CSVs for analysis.
