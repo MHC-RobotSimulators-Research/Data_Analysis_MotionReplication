@@ -12,20 +12,19 @@ class meanBarGraph:
         #create mean, jpos column and bar_color for positive mean = green, negative mean = orange
         jpos_column = []
         bar_color = []
-        df_column = []
         for i in used_j:
+            mean = 0
+            df_column = []
             jpos = type + str(i)
             # plt.clf()
             # count mean
             for df in self.dfs:
                 df_column.append(df[jpos])
-
             diff = pd.concat(df_column, axis=1)
-            diff['max_difference'] = diff.apply(lambda x: x.max() - x.min() if x.max() > x.min() else x.min() - x.max(), axis=1)
-
+            diff['max_difference'] = diff.apply(lambda x: x.max() - x.min(), axis=1) #if x.max() > x.min() else x.min() - x.max()
             # Calculate the mean of the maximum differences across columns
             mean = diff['max_difference'].mean()
-
+            print(mean)
             if mean < 0:
                 bar_color.append("orange")
             else:
@@ -44,16 +43,22 @@ class meanBarGraph:
         cols = self.create_mean_column(type, used_j)
         jpos_column = cols[0]
         bar_color = cols[1]
+        if type == "jpos":
+            name = "Joint Position"
+        elif type == "jvel":
+            name = "Joint Velocity"
+        else:
+            name = "DAC"
         #create pandas dataframe with above columns
-        mean_bar = pd.DataFrame({"Mean Differences": self.mean_column, "Joint Position" if type == "jpos" else "Joint Velocity": jpos_column})
+        mean_bar = pd.DataFrame({"Mean Differences": self.mean_column, name: jpos_column})
         # create bar plots        
-        graph = mean_bar.plot(kind = "bar", x = "Joint Position" if type == "jpos" else "Joint Velocity", y = "Mean Differences", legend=False, color=bar_color)
+        graph = mean_bar.plot(kind = "bar", x = name, y = "Mean Differences", legend=False, color=bar_color)
         # Add a baseline at 0
         graph.axhline(0, color='gray', linestyle='--', linewidth=1)
         # Add labels and title
         plt.xlabel("Mean Differences")
-        plt.ylabel( "Joint Position" if type == "jpos" else "Joint Velocity")
-        plt.title("Mean Differences of " +  "Joint Position" if type == "jpos" else "Joint Velocity")
+        plt.ylabel(name)
+        plt.title("Mean Differences of " +  name)
 
         #add overal mean in the right corner
         graph.text(0.95, 0.95, f"Mean Error: {self.mean_error:.2f}", transform=graph.transAxes, fontsize=12,

@@ -13,7 +13,6 @@ def init():
         print("\t["+str(i)+"] :"+str(CSV_FILES_NAME[i]))
 
 def main():
-    print('PIL',PIL.__version__)
     choice = 0
     while True:
         init()  # Show the list of CSVs
@@ -43,7 +42,7 @@ def main():
                         print("\nChoose an option:\n")
                         print("1. Add offsett\n")
                         print("2. Filter joints\n")
-                        print("3. Plot one join\n")
+                        print("3. Plot one joint\n")
                         print("4. Plot all joints\n")
                         print("5. Plot overlay\n")
                         print("6. Plot mean bar graph\n")
@@ -82,22 +81,20 @@ def main():
                             
                             # Plot one joint
                             if choice == 3:
-                                ans = input(f"Enter csv (1 to {num_csvs}), joint (1-16) and type(jpos, jvel) to plot\n").split()
+                                ans = input(f"Enter csv (1 to {num_csvs}), joint (1-16) and type (jpos, jvel) to plot\n").split()
                                 plot.plot_one_jpos(int(ans[0]), int(ans[1]) +1, GRAPH_PATH + "One_Joint", type=ans[2])
                                 print(f"Graph One_Joint plotted")
                             
                             # Plot all joints
                             if choice == 4:
-                                df = int(input(f"Enter csv 1 to {num_csvs} to plot: \n"))
-                                plot.plot_all_jpos(df, GRAPH_PATH + "All_Joints")
+                                ans = input(f"Enter csv 1 to {num_csvs} to plot and type (jpos/jvel/dac_vals): \n").split()
+                                plot.plot_all_jpos(int(ans[0]), GRAPH_PATH + "All_Joints", ORIGINAL, ans[1])
                                 print(f"Graph All_Joints plotted")
-
-
 
                             # Plot overlay
                             if choice == 5:
                                 overlay_graph = overlay(dfs)
-                                type = input("What type (jpos/jevel)? \n")
+                                type = input("What type (jpos/jevel/dac_vals)? \n")
                                 best_worst = input("Do you want to plot smallest and biggest gap joints between files? (y/n)\n")
                                 if best_worst == "y":
                                     meanGraph = meanBarGraph(dfs)
@@ -112,8 +109,8 @@ def main():
                             # Plot mean bar graph
                             if choice == 6:
                                 mean_bar_graph = meanBarGraph(dfs)
-                                type = input("Enter the type to plot (jpos/jvel):\n")
-                                mean_bar_graph.plot_mean_bar_graph(type, BOTH, GRAPH_PATH + "Mean_Bar_Graph")
+                                type = input("Enter the type to plot (jpos/jvel/dac_vals):\n")
+                                mean_bar_graph.plot_mean_bar_graph(type, ORIGINAL, GRAPH_PATH + "Mean_Bar_Graph")
                                 print(f"Graph Mean_Bar_Graph plotted")
 
                             # Plot bar graph
